@@ -17,9 +17,7 @@
             @if($user->avatar)
                 <img src="{{ asset('storage/avatars/' . $user->avatar) }}" alt="Avatar" class="avatar-preview avatar-size">
             @else
-                <div class="avatar-placeholder avatar-size">
-                <i class="fas fa-user"></i>
-                </div>
+                <img src="{{ asset('images/default-avatar.svg') }}" alt="Default Avatar" class="avatar-preview avatar-size">
             @endif
             </div>
 

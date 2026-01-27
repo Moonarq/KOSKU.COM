@@ -9,7 +9,7 @@ class LandingController extends Controller
 {
     private $indonesianCities = [
         'Jakarta' => [
-            'Menteng', 'Kemang', 'Kuningan', 'Sudirman', 'Thamrin', 'Tebet', 'Kelapa Gading'
+            'Menteng', 'Kemang', 'Kuningan', 'Sudirman', 'Thamrin', 'Tebet', 'Kelapa Gading', 'Depok'
         ],
         'Bandung' => [
             'Dago', 'Riau', 'Buah Batu', 'Pasteur', 'Setiabudi', 'Dipatiukur', 'Ciumbuleuit'

@@ -25,7 +25,7 @@
                         @if(Auth::user()->avatar)
                             <img src="{{ asset('storage/avatars/' . Auth::user()->avatar) }}" alt="Profile">
                         @else
-                            <i class="fas fa-user"></i>
+                            <img src="{{ asset('images/default-avatar.svg') }}" alt="Default Profile">
                         @endif
                     </div>
                     <div class="profile-info">

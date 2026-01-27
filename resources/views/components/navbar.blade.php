@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
 <nav class="nav-modern">
     <div class="nav-container">        <!-- Logo -->
         <a href="{{ url('/') }}" class="nav-logo">
@@ -54,9 +56,15 @@
         <div class="nav-end">
             @auth
                 <div class="nav-profile">                    <div class="profile-wrapper">
-                        <img src="{{ Auth::user()->avatar ? asset('storage/avatars/' . Auth::user()->avatar) : asset('images/default-avatar.png') }}" 
-                             alt="Profile" 
-                             class="profile-image">
+                        @if(Auth::user()->avatar)
+                            <img src="{{ asset('storage/avatars/' . Auth::user()->avatar) }}" 
+                                 alt="Profile" 
+                                 class="profile-image">
+                        @else
+                            <img src="{{ asset('images/default-avatar.svg') }}" 
+                                 alt="Default Profile" 
+                                 class="profile-image">
+                        @endif
                         <span class="profile-name">{{ Auth::user()->name }}</span>
                         <i class="fas fa-chevron-down" id="profile-dropdown-icon"></i>
                     </div>
