@@ -86,7 +86,11 @@ private $dekatkampusAreas = [
     {
         $kos = Kos::orderBy('created_at', 'desc')->paginate(10);
         $locations = $this->getFormattedLocations();
-        return view('landing.index', compact('kos', 'locations'));
+        return view('landing.index', [
+            'kos' => $kos,
+            'locations' => $locations,
+            'popularAreas' => $this->popularAreas,
+        ]);
     }
 
     private function getFormattedLocations()
@@ -108,12 +112,23 @@ private $dekatkampusAreas = [
     public function search(Request $request)
     {
         $query = strtolower(trim($request->get('query')));
+        $displayQuery = $request->get('query');
         $gender = $request->get('gender');
         $priceRange = $request->get('price_range');
         $locationType = $request->get('location_type');
 
         if (empty($query) && empty($gender) && empty($priceRange) && empty($locationType)) {
             return redirect()->route('index');
+        }
+
+        // Label untuk tampilan hasil jika pakai location_type tanpa query text
+        if (empty($displayQuery) && $locationType === 'popular_area') {
+            $displayQuery = 'Popular Area';
+        }
+        
+        // Label untuk tampilan hasil jika pakai query 'premium'
+        if (strtolower($query) === 'premium') {
+            $displayQuery = 'Premium';
         }
 
         $matchedLocations = [];
@@ -149,6 +164,18 @@ private $dekatkampusAreas = [
                     $q->orWhere('address', 'like', "%universitas%");
                     $q->orWhere('address', 'like', "%college%");
                 });
+            } elseif ($locationType === 'popular_area') {
+                $allPopularAreas = [];
+                foreach ($this->popularAreas as $areas) {
+                    $allPopularAreas = array_merge($allPopularAreas, $areas);
+                }
+
+                $kosQuery->where(function ($q) use ($allPopularAreas) {
+                    foreach ($allPopularAreas as $area) {
+                        $q->orWhere('address', 'like', "%{$area}%");
+                    }
+                    $q->orWhere('address', 'like', "%popular%");
+                });
             }
         }
 
@@ -179,6 +206,25 @@ private $dekatkampusAreas = [
                         $q->orWhere('address', 'like', "%pusat kota%");
                     });
                 }
+            }
+            // Jika pencarian mengandung kata 'popular'
+            elseif (strpos($query, 'popular') !== false) {
+                $allPopularAreas = [];
+                foreach ($this->popularAreas as $areas) {
+                    $allPopularAreas = array_merge($allPopularAreas, $areas);
+                }
+
+                $kosQuery->where(function($q) use ($allPopularAreas) {
+                    foreach ($allPopularAreas as $area) {
+                        $q->orWhere('address', 'like', "%{$area}%");
+                    }
+                    $q->orWhere('address', 'like', "%popular%");
+                });
+            }
+            // Jika pencarian mengandung kata 'premium' - filter kos dengan minimal 5 fasilitas
+            elseif (strpos($query, 'premium') !== false) {
+                // Filter kos yang memiliki minimal 5 fasilitas
+                $kosQuery->whereRaw('JSON_LENGTH(facilities) >= 5');
             }
             // Jika pencarian mengandung kata 'dekat kampus'
             elseif (strpos($query, 'dekat kampus') !== false) {
@@ -275,7 +321,7 @@ private $dekatkampusAreas = [
 
         return view('landing.index', [
             'kos' => $kos,
-            'searchQuery' => $query,
+            'searchQuery' => $displayQuery ?? $query,
             'locations' => $this->getFormattedLocations(),
             'matchedLocations' => $matchedLocations,
             'genderFilter' => $gender,

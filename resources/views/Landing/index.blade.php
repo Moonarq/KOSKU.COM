@@ -32,7 +32,7 @@
                 <div class="search-tags">
                     <a href="{{ route('landing.search', ['query' => 'Dekat Kampus']) }}" class="search-tag">Dekat Kampus</a>
                     <a href="{{ route('landing.search', ['query' => 'Pusat Kota']) }}" class="search-tag">Pusat Kota</a>
-                    <a href="{{ route('landing.search', ['query' => 'Monthly Deals']) }}" class="search-tag">Promo Bulanan</a>
+               <a href="{{ route('landing.search', ['location_type' => 'popular_area']) }}" class="search-tag">Popular Area</a>
                     <a href="{{ route('landing.search', ['query' => 'Premium']) }}" class="search-tag">Premium</a>
                 </div>
             </div>
