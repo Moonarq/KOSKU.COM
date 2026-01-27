@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="docs/logo.png" width="200" alt="KosKu Logo" />
+  <img src="docs/logooo.png" width="200" alt="KosKu Logo" />
 </p>
 
 <h1 align="center">KosKu</h1>
