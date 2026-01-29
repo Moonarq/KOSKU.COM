@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Kos;
+use App\Models\Apartment;
 
 class LandingController extends Controller
 {
@@ -85,9 +86,11 @@ private $dekatkampusAreas = [
     public function index(Request $request)
     {
         $kos = Kos::orderBy('created_at', 'desc')->paginate(10);
+        $apartments = Apartment::orderBy('created_at', 'desc')->take(10)->get();
         $locations = $this->getFormattedLocations();
         return view('landing.index', [
             'kos' => $kos,
+            'apartments' => $apartments,
             'locations' => $locations,
             'popularAreas' => $this->popularAreas,
         ]);
@@ -319,8 +322,32 @@ private $dekatkampusAreas = [
 
         $kos = $kosQuery->orderBy('created_at', 'desc')->paginate(10);
 
+        $apartmentQuery = Apartment::query();
+
+        if (!empty($query)) {
+            $apartmentQuery->where(function ($q) use ($query) {
+                $q->where('name', 'like', "%{$query}%")
+                    ->orWhere('address', 'like', "%{$query}%");
+            });
+        }
+
+        if ($gender) {
+            $apartmentQuery->where('gender', $gender);
+        }
+
+        if ($priceRange) {
+            $rangeParts = explode('-', $priceRange);
+            if (count($rangeParts) === 2) {
+                [$min, $max] = $rangeParts;
+                $apartmentQuery->whereBetween('price', [(int) $min, (int) $max]);
+            }
+        }
+
+        $apartments = $apartmentQuery->orderBy('created_at', 'desc')->take(10)->get();
+
         return view('landing.index', [
             'kos' => $kos,
+            'apartments' => $apartments,
             'searchQuery' => $displayQuery ?? $query,
             'locations' => $this->getFormattedLocations(),
             'matchedLocations' => $matchedLocations,

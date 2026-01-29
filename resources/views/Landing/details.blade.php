@@ -42,13 +42,18 @@
 <!-- Detail Section -->
 <section class="property-detail">
     <div class="container">
+        @php
+            $locationInfo = $kos->location_info ?? ['city' => '', 'province' => ''];
+            $images = is_array($kos->image) ? $kos->image : (empty($kos->image) ? [] : [$kos->image]);
+            $mainImage = $images[0] ?? null;
+        @endphp
         <!-- Breadcrumb -->
         <nav class="breadcrumb">
             <a href="#">Kos</a>
             <span class="breadcrumb-separator">></span>
-            <a href="#">{{ $kos->location_info['city'] }}</a>
+            <a href="#">{{ $locationInfo['city'] ?? '' }}</a>
             <span class="breadcrumb-separator">></span>
-            <a href="#">{{ $kos->location_info['province'] }}</a>
+            <a href="#">{{ $locationInfo['province'] ?? '' }}</a>
             <span class="breadcrumb-separator">></span>
             <span>{{ $kos->name }}</span>
         </nav>
@@ -64,11 +69,11 @@
         <!-- Image Gallery -->
         <div class="image-gallery">
             <div class="main-image">
-                <img id="currentImage" src="{{ asset('storage/' . $kos->image[0]) }}" alt="{{ $kos->name }}" width="480" height="320">
+                <img id="currentImage" src="{{ $mainImage ? asset('storage/' . $mainImage) : asset('images/default-kos.jpg') }}" alt="{{ $kos->name }}" width="480" height="320">
             </div>
             <div class="thumbnail-grid">
                 <div class="thumbnail-row">
-                    @foreach(array_slice($kos->image, 0, 6) as $img)
+                    @foreach(array_slice($images, 0, 6) as $img)
                         <div class="thumbnail" style="cursor:pointer;">
                             <img src="{{ asset('storage/' . $img) }}" alt="Thumbnail" width="80" height="54">
                         </div>
@@ -113,7 +118,9 @@
         <nav class="property-nav">
             <div class="nav-tabs">
                 <button class="nav-tab active" onclick="showTab('info')">Info Umum</button>
-                <button class="nav-tab" onclick="showTab('review')">Review</button>
+                @unless($hideReviews ?? false)
+                    <button class="nav-tab" onclick="showTab('review')">Review</button>
+                @endunless
                 <button class="nav-tab" onclick="showTab('fasilitas')">Fasilitas Favorit</button>
                 <button class="nav-tab" onclick="showTab('lokasi')">Lokasi</button>
                 <button class="nav-tab" onclick="showTab('kebijakan')">Kebijakan Akomodasi</button>
@@ -141,6 +148,7 @@
             </a>
         </div>
 
+        @unless($hideReviews ?? false)
         <div class="content-section" id="review">
             <div class="section-header">
                 <h3>Ulasan Penghuni</h3>
@@ -363,6 +371,7 @@
             </div>
         </div>
         @endauth
+        @endunless
 
         @php
         $facilitiesList = [
@@ -682,6 +691,7 @@
             }, 3000);
         }
 </script>
+@unless($hideReviews ?? false)
  <script>
     let selectedRating = 0;
 
@@ -837,6 +847,17 @@
                 }
                 const dateText = timeAgo(new Date(review.created_at));
                 
+                // Build reply HTML if owner replied
+                let replyHtml = '';
+                if (review.reply && review.reply.trim() !== '') {
+                    replyHtml = `
+                        <div class="review-reply" style="margin-top: 12px; padding: 12px; background: #f8f9fa; border-radius: 8px; border: 1px solid #e5e7eb;">
+                            <div style="font-weight: 600; color: #111827; margin-bottom: 6px;">Balasan Owner</div>
+                            <div style="color: #374151;">${review.reply}</div>
+                        </div>
+                    `;
+                }
+
                 // Build images HTML if there are any
                 let imagesHtml = '';
                 if (review.images && review.images.length > 0) {
@@ -866,6 +887,7 @@
                             <div class="review-date">${dateText}</div>
                         </div>
                         <p class="review-text">${review.comment}</p>
+                        ${replyHtml}
                         ${imagesHtml}
                     </div>
                 `;
@@ -1207,5 +1229,6 @@
     document.addEventListener('reviews:rendered', applyReviewFilters);
     });
 </script>
+@endunless
 </body>
 </html>

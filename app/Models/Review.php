@@ -6,8 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Review extends Model
 {
-    use HasFactory;    protected $fillable = [
-        'kos_id', 'name', 'rating', 'comment', 'images',
+    use HasFactory;
+
+    protected $fillable = [
+        'kos_id',
+        'name',
+        'rating',
+        'comment',
+        'images',
+        'reply',
     ];
 
     protected $casts = [

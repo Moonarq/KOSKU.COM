@@ -238,6 +238,47 @@
     </div> <!-- Tutup .container -->
 </section>
 
+@if(isset($apartments) && $apartments->count() > 0)
+<section class="properties" id="apartments" style="padding-top: 2rem;">
+    <div class="container">
+        <div class="section-header">
+            <div class="header-left">
+                <h2>Apartment Terbaru</h2>
+                <div class="carousel-buttons">
+                    <button class="carousel-btn prev-btn" aria-label="Previous">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button class="carousel-btn next-btn" aria-label="Next">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="carousel-container">
+            <div class="properties-grid">
+                @foreach($apartments as $item)
+                    <a href="{{ route('apartments.show', $item->id) }}" class="property-card no-underline">
+                        <div class="property-image" style="background-image: url('{{ asset('storage/' . (is_array($item->image) ? $item->image[0] : $item->image)) }}');">
+                            <div class="property-tag">{{ $item->gender_label }}</div>
+                        </div>
+                        <div class="property-info">
+                            <h3>{{ $item->name }}</h3>
+                            <p class="property-location">
+                                <i class="fas fa-map-marker-alt"></i> {{ $item->address }}
+                            </p>
+                            <div class="property-price">
+                                Rp {{ number_format($item->price, 0, ',', '.') }}/bulan
+                            </div>
+                        </div>
+                    </a>
+                @endforeach
+            </div>
+        </div>
+    </div>
+</section>
+@endif
+
 
     <!-- CTA Section -->
     <section class="cta-section">

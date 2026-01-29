@@ -30,6 +30,16 @@ class Apartment extends Model
         'price' => 'decimal:2',
     ];
 
+    public function getGenderLabelAttribute(): string
+    {
+        return match ($this->gender) {
+            'male' => 'Laki-laki',
+            'female' => 'Perempuan',
+            'mixed' => 'Campuran',
+            default => 'Apartment',
+        };
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);

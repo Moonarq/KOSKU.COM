@@ -1,6 +1,7 @@
 <?php
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LandingController;
+use App\Http\Controllers\ApartmentController;
 use App\Http\Controllers\KosController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProfileController;
@@ -16,6 +17,7 @@ Route::get('/search', [LandingController::class, 'search'])->name('landing.searc
 
 Route::resource('/', LandingController::class);
 Route::get('/kos/{id}', [KosController::class, 'show'])->name('kos.show');
+Route::get('/apartments/{id}', [ApartmentController::class, 'show'])->name('apartments.show');
 
 Route::get('/register', [AuthController::class, 'showRegister'])->name('register.show');
 Route::post('/register', [AuthController::class, 'register'])->name('register');
