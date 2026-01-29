@@ -128,6 +128,12 @@ private $dekatkampusAreas = [
         if (empty($displayQuery) && $locationType === 'popular_area') {
             $displayQuery = 'Popular Area';
         }
+        if (empty($displayQuery) && $locationType === 'dekat_kampus') {
+            $displayQuery = 'Dekat Kampus';
+        }
+        if (empty($displayQuery) && $locationType === 'pusat_kota') {
+            $displayQuery = 'Pusat Kota';
+        }
         
         // Label untuk tampilan hasil jika pakai query 'premium'
         if (strtolower($query) === 'premium') {
@@ -324,17 +330,144 @@ private $dekatkampusAreas = [
 
         $apartmentQuery = Apartment::query();
 
-        if (!empty($query)) {
-            $apartmentQuery->where(function ($q) use ($query) {
-                $q->where('name', 'like', "%{$query}%")
-                    ->orWhere('address', 'like', "%{$query}%");
-            });
+        // Filter berdasarkan location_type dari dropdown (same as Kos)
+        if ($locationType) {
+            if ($locationType === 'pusat_kota') {
+                $allPusatKotaAreas = [];
+                foreach ($this->pusatKotaAreas as $areas) {
+                    $allPusatKotaAreas = array_merge($allPusatKotaAreas, $areas);
+                }
+
+                $apartmentQuery->where(function ($q) use ($allPusatKotaAreas) {
+                    foreach ($allPusatKotaAreas as $area) {
+                        $q->orWhere('address', 'like', "%{$area}%");
+                    }
+                    $q->orWhere('address', 'like', "%pusat kota%");
+                });
+            } elseif ($locationType === 'dekat_kampus') {
+                $allDekatkampusAreas = [];
+                foreach ($this->dekatkampusAreas as $areas) {
+                    $allDekatkampusAreas = array_merge($allDekatkampusAreas, $areas);
+                }
+
+                $apartmentQuery->where(function ($q) use ($allDekatkampusAreas) {
+                    foreach ($allDekatkampusAreas as $area) {
+                        $q->orWhere('address', 'like', "%{$area}%");
+                    }
+                    $q->orWhere('address', 'like', "%kampus%");
+                    $q->orWhere('address', 'like', "%universitas%");
+                    $q->orWhere('address', 'like', "%college%");
+                });
+            } elseif ($locationType === 'popular_area') {
+                $allPopularAreas = [];
+                foreach ($this->popularAreas as $areas) {
+                    $allPopularAreas = array_merge($allPopularAreas, $areas);
+                }
+
+                $apartmentQuery->where(function ($q) use ($allPopularAreas) {
+                    foreach ($allPopularAreas as $area) {
+                        $q->orWhere('address', 'like', "%{$area}%");
+                    }
+                    $q->orWhere('address', 'like', "%popular%");
+                });
+            }
         }
 
+        // Jika ada query pencarian, tambahkan ke filter (same as Kos)
+        if (!empty($query)) {
+            if (strpos($query, 'pusat kota') !== false) {
+                $allPusatKotaAreas = [];
+                foreach ($this->pusatKotaAreas as $areas) {
+                    $allPusatKotaAreas = array_merge($allPusatKotaAreas, $areas);
+                }
+
+                if ($locationType) {
+                    $apartmentQuery->where(function ($q) use ($allPusatKotaAreas) {
+                        foreach ($allPusatKotaAreas as $area) {
+                            $q->orWhere('address', 'like', "%{$area}%");
+                        }
+                        $q->orWhere('address', 'like', "%pusat kota%");
+                    });
+                } else {
+                    $apartmentQuery->where(function ($q) use ($allPusatKotaAreas) {
+                        foreach ($allPusatKotaAreas as $area) {
+                            $q->orWhere('address', 'like', "%{$area}%");
+                        }
+                        $q->orWhere('address', 'like', "%pusat kota%");
+                    });
+                }
+            } elseif (strpos($query, 'popular') !== false) {
+                $allPopularAreas = [];
+                foreach ($this->popularAreas as $areas) {
+                    $allPopularAreas = array_merge($allPopularAreas, $areas);
+                }
+
+                $apartmentQuery->where(function ($q) use ($allPopularAreas) {
+                    foreach ($allPopularAreas as $area) {
+                        $q->orWhere('address', 'like', "%{$area}%");
+                    }
+                    $q->orWhere('address', 'like', "%popular%");
+                });
+            } elseif (strpos($query, 'premium') !== false) {
+                $apartmentQuery->whereRaw('JSON_LENGTH(facilities) >= 5');
+            } elseif (strpos($query, 'dekat kampus') !== false) {
+                $allDekatkampusAreas = [];
+                foreach ($this->dekatkampusAreas as $areas) {
+                    $allDekatkampusAreas = array_merge($allDekatkampusAreas, $areas);
+                }
+
+                if ($locationType) {
+                    $apartmentQuery->where(function ($q) use ($allDekatkampusAreas) {
+                        foreach ($allDekatkampusAreas as $area) {
+                            $q->orWhere('address', 'like', "%{$area}%");
+                        }
+                        $q->orWhere('address', 'like', "%kampus%");
+                        $q->orWhere('address', 'like', "%universitas%");
+                        $q->orWhere('address', 'like', "%college%");
+                    });
+                } else {
+                    $apartmentQuery->where(function ($q) use ($allDekatkampusAreas) {
+                        foreach ($allDekatkampusAreas as $area) {
+                            $q->orWhere('address', 'like', "%{$area}%");
+                        }
+                        $q->orWhere('address', 'like', "%kampus%");
+                        $q->orWhere('address', 'like', "%universitas%");
+                        $q->orWhere('address', 'like', "%college%");
+                    });
+                }
+            } else {
+                if (!empty($matchedLocations)) {
+                    if ($locationType) {
+                        $apartmentQuery->where(function ($q) use ($matchedLocations, $query) {
+                            foreach ($matchedLocations as $location) {
+                                $q->orWhere('address', 'like', "%{$location}%");
+                            }
+                            $q->orWhere('address', 'like', "%{$query}%");
+                        });
+                    } else {
+                        $apartmentQuery->where(function ($q) use ($matchedLocations, $query) {
+                            foreach ($matchedLocations as $location) {
+                                $q->orWhere('address', 'like', "%{$location}%");
+                            }
+                            $q->orWhere('address', 'like', "%{$query}%");
+                        });
+                    }
+                } else {
+                    if ($locationType) {
+                        $apartmentQuery->where('address', 'like', "%{$query}%");
+                    } else {
+                        $apartmentQuery->where('address', 'like', "%{$query}%");
+                    }
+                }
+            }
+        }
+
+        // Filter gender jika ada
         if ($gender) {
             $apartmentQuery->where('gender', $gender);
         }
 
+        // Filter price_range jika ada
         if ($priceRange) {
             $rangeParts = explode('-', $priceRange);
             if (count($rangeParts) === 2) {

@@ -80,7 +80,7 @@ class ReviewResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('kos.name')
-                    ->label('Nama Kos')
+                    ->label('Nama Properti')
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('name')
