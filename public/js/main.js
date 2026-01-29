@@ -99,17 +99,9 @@ window.addEventListener('load', () => {
   }
 });
 
-// Floating animation on random elements
-setInterval(() => {
-  const cards = document.querySelectorAll('.feature-card, .property-card');
-  if (cards.length === 0) return;
-  const randomCard = cards[Math.floor(Math.random() * cards.length)];
-  randomCard.style.animation = 'float 2s ease-in-out';
-
-  setTimeout(() => {
-    randomCard.style.animation = '';
-  }, 2000);
-}, 5000);
+// Floating animation disabled - was causing unwanted visual glitch every 5 seconds
+// const randomCard = cards[Math.floor(Math.random() * cards.length)];
+// randomCard.style.animation = 'float 2s ease-in-out';
 
 // Parallax effect for hero section
 window.addEventListener('scroll', () => {

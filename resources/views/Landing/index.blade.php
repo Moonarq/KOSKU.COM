@@ -258,7 +258,7 @@
         </div>
 
         <div class="carousel-container">
-            <div class="properties-grid">
+            <div class="properties-grid" style="margin-left: -24px;">
                 @foreach($apartments as $item)
                     <a href="{{ route('apartments.show', $item->id) }}" class="property-card no-underline">
                         <div class="property-image" style="background-image: url('{{ asset('storage/' . (is_array($item->image) ? $item->image[0] : $item->image)) }}');">
