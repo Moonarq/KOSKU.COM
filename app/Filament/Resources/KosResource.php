@@ -18,6 +18,10 @@ class KosResource extends Resource
     protected static ?string $model = Kos::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    
+    protected static ?string $navigationGroup = 'Properti Saya';
+    
+    protected static ?string $navigationLabel = 'Kos';
 
 public static function form(Form $form): Form
 {
