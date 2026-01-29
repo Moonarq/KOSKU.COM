@@ -170,13 +170,13 @@
             <div class="section-header">
                 <div class="header-left">
                     <h2>
-                        @if($kos->count() > 0)
+                        @if($kos->count() > 0 || (isset($apartments) && $apartments->count() > 0))
                             Search Results for "{{ $searchQuery }}"
                         @else
                             No results found for "{{ $searchQuery }}"
                         @endif
                     </h2>
-                    @if($kos->count() > 1)
+                    @if($kos->count() > 1 || (isset($apartments) && $apartments->count() > 1))
 <div class="carousel-buttons">
     <button class="carousel-btn prev-btn" aria-label="Previous">
         <i class="fas fa-chevron-left"></i>
@@ -211,35 +211,37 @@
             </div>
         @endif
 
-        <div class="carousel-container">
-            <div class="properties-grid">
-                @foreach($kos as $item)
-                    <a href="{{ route('kos.show', $item->id) }}" class="property-card no-underline">
-                        <div class="property-image" style="background-image: url('{{ asset('storage/' . (is_array($item->image) ? $item->image[0] : $item->image)) }}');">
-                            <div class="property-tag">{{ $item->gender_label }}</div>
-                        </div>
-                        <div class="property-info">
-                            <h3>{{ $item->name }}</h3>
-                            <p class="property-location">
-                                <i class="fas fa-map-marker-alt"></i> {{ $item->address }}
-                            </p>
-                            <div class="property-price">
-                                Rp {{ number_format($item->price, 0, ',', '.') }}/bulan
+        @if($kos->count() > 0)
+            <div class="carousel-container">
+                <div class="properties-grid">
+                    @foreach($kos as $item)
+                        <a href="{{ route('kos.show', $item->id) }}" class="property-card no-underline">
+                            <div class="property-image" style="background-image: url('{{ asset('storage/' . (is_array($item->image) ? $item->image[0] : $item->image)) }}');">
+                                <div class="property-tag">{{ $item->gender_label }}</div>
                             </div>
-                        </div>
-                    </a>
-                @endforeach
+                            <div class="property-info">
+                                <h3>{{ $item->name }}</h3>
+                                <p class="property-location">
+                                    <i class="fas fa-map-marker-alt"></i> {{ $item->address }}
+                                </p>
+                                <div class="property-price">
+                                    Rp {{ number_format($item->price, 0, ',', '.') }}/bulan
+                                </div>
+                            </div>
+                        </a>
+                    @endforeach
+                </div>
             </div>
-        </div>
 
-        {{-- Pagination --}}
-        {{ $kos->links() }}
+            {{-- Pagination --}}
+            {{ $kos->links() }}
+        @endif
 
     </div> <!-- Tutup .container -->
 </section>
 
 @if(isset($apartments) && $apartments->count() > 0)
-<section class="properties" id="apartments" style="padding-top: 2rem;">
+<section class="properties" id="apartments" @if(isset($searchQuery) && $kos->count() === 0) style="padding-top: 0; margin-top: -58px;" @else style="padding-top: 2rem;" @endif>
     <div class="container">
         <div class="section-header">
             <div class="header-left">
