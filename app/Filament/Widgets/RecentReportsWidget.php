@@ -7,6 +7,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Widgets\TableWidget as BaseWidget;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
 
 class RecentReportsWidget extends BaseWidget
 {
@@ -15,6 +16,11 @@ class RecentReportsWidget extends BaseWidget
     protected int | string | array $columnSpan = 'full';
 
     protected static ?int $sort = 4;
+
+    public static function canView(): bool
+    {
+        return Auth::user()?->role === 'admin';
+    }
 
     public function table(Table $table): Table
     {

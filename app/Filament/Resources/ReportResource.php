@@ -60,6 +60,11 @@ class ReportResource extends Resource
         return $pendingCount > 0 ? 'warning' : null;
     }
 
+    public static function shouldRegisterNavigation(): bool
+    {
+        return Auth::user()?->role === 'admin';
+    }
+
     public static function form(Form $form): Form
     {
         return $form

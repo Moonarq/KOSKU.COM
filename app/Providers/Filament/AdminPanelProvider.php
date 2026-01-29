@@ -18,6 +18,8 @@ use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\HtmlString;
 
 use App\Filament\Widgets\TotalOwnersWidget;
 use App\Filament\Widgets\TotalTenantsWidget;
@@ -48,6 +50,14 @@ class AdminPanelProvider extends PanelProvider
             ->pages([
                 Pages\Dashboard::class,  // pastikan ini adalah dashboard bawaan Filament (hapus kustom kamu)
             ])
+            ->navigationItems([
+                \Filament\Navigation\NavigationItem::make('Pusat Bantuan')
+                    ->url('/help-center')
+                    ->icon(fn () => new HtmlString('<img src="/images/exclamation.png" class="w-5 h-5" alt="Pusat Bantuan" />'))
+                    ->visible(fn () => Auth::user()?->role === 'owner')
+                    ->openUrlInNewTab()
+                    ->sort(999),
+            ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
                 Widgets\AccountWidget::class,
@@ -73,24 +83,5 @@ class AdminPanelProvider extends PanelProvider
             ->authMiddleware([
                 Authenticate::class,
             ]);
-    }
-
-    // Override method navigationItems untuk pastikan "Dashboard" arahkan ke /admin
-    public function getNavigation(): array
-    {
-        return [
-            // Link dashboard ke /admin langsung
-            \Filament\Navigation\NavigationItem::make('Dashboard')
-                ->url('/admin')
-                ->icon('heroicon-o-home'),
-
-            // Contoh resource navigation (Kos)
-            \Filament\Navigation\NavigationGroup::make('Master Data')
-                ->items([
-                    \Filament\Navigation\NavigationItem::make('Kos')
-                        ->url('/admin/kos')
-                        ->icon('heroicon-o-building'),
-                ]),
-        ];
     }
 }
