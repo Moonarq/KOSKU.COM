@@ -213,7 +213,7 @@
 
         @if($kos->count() > 0)
             <div class="carousel-container">
-                <div class="properties-grid">
+                <div class="properties-grid" style="margin-left: -20px;">
                     @foreach($kos as $item)
                         <a href="{{ route('kos.show', $item->id) }}" class="property-card no-underline">
                             <div class="property-image" style="background-image: url('{{ asset('storage/' . (is_array($item->image) ? $item->image[0] : $item->image)) }}');">
@@ -241,7 +241,7 @@
 </section>
 
 @if(isset($apartments) && $apartments->count() > 0)
-<section class="properties" id="apartments" @if(isset($searchQuery) && $kos->count() === 0) style="padding-top: 0; margin-top: -58px;" @else style="padding-top: 2rem;" @endif>
+<section class="properties" id="apartments" @if(isset($searchQuery) && $kos->count() === 0) style="padding-top: 0; margin-top: -80px;" @else style="padding-top: 2rem; margin-top: -50px;" @endif>
     <div class="container">
         <div class="section-header">
             <div class="header-left">
@@ -258,7 +258,7 @@
         </div>
 
         <div class="carousel-container">
-            <div class="properties-grid" style="margin-left: -24px;">
+            <div class="properties-grid" style="margin-left: -20px;">
                 @foreach($apartments as $item)
                     <a href="{{ route('apartments.show', $item->id) }}" class="property-card no-underline">
                         <div class="property-image" style="background-image: url('{{ asset('storage/' . (is_array($item->image) ? $item->image[0] : $item->image)) }}');">

@@ -57,14 +57,14 @@ if (searchBtn && searchInput) {
   });
 }
 
-// Property card hover effect
+// Property card hover effect - all effects disabled
 document.querySelectorAll('.property-card').forEach(card => {
   card.addEventListener('mouseenter', () => {
-    card.style.transform = 'translateY(-10px) scale(1.02)';
+    // No hover effects
   });
 
   card.addEventListener('mouseleave', () => {
-    card.style.transform = 'translateY(0) scale(1)';
+    // No hover effects
   });
 });
 
