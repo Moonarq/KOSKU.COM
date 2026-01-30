@@ -30,7 +30,7 @@
 
         /* Hero Section */
         .hero {
-            padding-top: 100px;
+            padding-top: 130px;
             background: linear-gradient(to bottom right, #000000, #000000);
             color: #fff;
             text-align: center;
@@ -126,72 +126,80 @@
         }
 
         .contact-info {
-            padding: 40px;
-            background: #f8f9fa;
+            padding: 28px;
+            background: #fff;
             border-radius: 16px;
-            border: 1px solid #eee;
+            border: 1px solid #eaeaea;
         }
 
         .contact-method {
-            margin-bottom: 32px;
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #f0f0f0;
         }
 
         .contact-method:last-child {
             margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
         }
 
         .contact-method h3 {
-            font-size: 1.2rem;
+            font-size: 0.98rem;
             font-weight: 600;
-            margin-bottom: 16px;
+            margin-bottom: 8px;
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 9px;
+            color: #111;
         }
 
         .contact-method h3 i {
-            width: 24px;
+            width: 18px;
+            color: #111;
         }
 
         .contact-method p {
-            color: #666;
-            margin-bottom: 8px;
+            color: #555;
+            margin-bottom: 6px;
+            font-size: 0.93rem;
         }
 
         .contact-method a {
             color: #222;
             text-decoration: none;
-            font-weight: 500;
+            font-weight: 400;
         }
 
         .contact-method a:hover {
             text-decoration: underline;
-        }        .social-links {
+        }
+
+        .social-links {
             display: flex;
-            gap: 16px;
-            margin-top: 16px;
+            gap: 10px;
+            margin-top: 8px;
         }
 
         .social-link {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: #fff;
-            color: #000;
-            display: flex;
+            width: auto;
+            height: auto;
+            border-radius: 0;
+            background: transparent;
+            color: #111;
+            display: inline-flex;
             align-items: center;
             justify-content: center;
             text-decoration: none;
-            transition: all 0.3s;
-            font-size: 1.5rem;
-            border: 2px solid #000;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: color 0.2s ease;
+            font-size: 1.15rem;
+            border: none;
+            box-shadow: none;
+            padding: 3px 2px;
         }
 
         .social-link:hover {
-            background: #000;
-            color: #fff;
-            transform: translateY(-2px);
+            color: #000;
         }
 
         .map-container {
@@ -271,25 +279,25 @@
 
                 <div class="contact-info">
                     <div class="contact-method">
-                        <h3><i class="fas fa-map-marker-alt"></i> Alamat</h3>
+                        <h3> Alamat</h3>
                         <p>Jl. Raya Bogor No. 123</p>
                         <p>Jakarta Timur, DKI Jakarta 13810</p>
                     </div>
 
                     <div class="contact-method">
-                        <h3><i class="fas fa-phone"></i> Telepon</h3>
+                        <h3>Telepon</h3>
                         <p><a href="tel:+6285712345678">+62 857 1234 5678</a></p>
                         <p><a href="tel:+6221987654321">(021) 987-654-321</a></p>
                     </div>
 
                     <div class="contact-method">
-                        <h3><i class="fas fa-envelope"></i> Email</h3>
+                        <h3>Email</h3>
                         <p><a href="mailto:info@kosku.com">info@kosku.com</a></p>
                         <p><a href="mailto:support@kosku.com">support@kosku.com</a></p>
                     </div>
 
                     <div class="contact-method">
-                        <h3><i class="fas fa-clock"></i> Jam Operasional</h3>
+                        <h3>Jam Operasional</h3>
                         <p>Senin - Jumat: 09:00 - 18:00</p>
                         <p>Sabtu: 09:00 - 15:00</p>
                         <p>Minggu: Tutup</p>

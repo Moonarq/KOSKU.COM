@@ -119,16 +119,6 @@
             overflow: hidden;
         }
 
-        .mission-card:before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(135deg, #1a1a1a 0%, #333 100%);
-        }
-
         .mission-card i {
             font-size: 2.5rem;
             color: #1a1a1a;
@@ -272,7 +262,7 @@
                 <p>Berawal dari platform kecil, kini kami telah berkembang menjadi marketplace terpercaya yang menghubungkan ribuan pemilik kos dengan penyewa di seluruh negeri.</p>
             </div>
             <div class="about-image">
-                <img src="{{ asset('images/modern-room.jpg') }}" alt="Cerita KosKu">
+                <img src="{{ asset('images/modernnnnnn-room.png') }}" alt="Cerita KosKu">
             </div>
         </div>
     </div>

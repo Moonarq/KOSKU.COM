@@ -304,15 +304,6 @@
                         Pelajari lebih lanjut <i class="fas fa-arrow-right"></i>
                     </a>
                 </div>
-
-                <div class="help-card">
-                    <i class="fas fa-clipboard-list"></i>
-                    <h3>Syarat & Ketentuan</h3>
-                    <p>Informasi lengkap tentang aturan dan kebijakan penggunaan KosKu.</p>
-                    <a href="#" class="learn-more">
-                        Pelajari lebih lanjut <i class="fas fa-arrow-right"></i>
-                    </a>
-                </div>
             </div>
 
             <div class="faq-section">
