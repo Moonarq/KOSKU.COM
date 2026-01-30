@@ -215,7 +215,7 @@
             <div class="carousel-container">
                 <div class="properties-grid" style="margin-left: -20px;">
                     @foreach($kos as $item)
-                        <a href="{{ route('kos.show', $item->id) }}" class="property-card no-underline">
+                        <a href="{{ route('kos.show', $item->id) }}" class="property-card no-underline @if($loop->first) first-carousel-card @endif">
                             <div class="property-image" style="background-image: url('{{ asset('storage/' . (is_array($item->image) ? $item->image[0] : $item->image)) }}');">
                                 <div class="property-tag">{{ $item->gender_label }}</div>
                             </div>
@@ -260,7 +260,7 @@
         <div class="carousel-container">
             <div class="properties-grid" style="margin-left: -20px;">
                 @foreach($apartments as $item)
-                    <a href="{{ route('apartments.show', $item->id) }}" class="property-card no-underline">
+                    <a href="{{ route('apartments.show', $item->id) }}" class="property-card no-underline @if($loop->first) first-carousel-card @endif">
                         <div class="property-image" style="background-image: url('{{ asset('storage/' . (is_array($item->image) ? $item->image[0] : $item->image)) }}');">
                             <div class="property-tag">{{ $item->gender_label }}</div>
                         </div>

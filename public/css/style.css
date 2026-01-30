@@ -699,6 +699,10 @@ h2 {
     font-weight: 500;
 }
 
+.first-carousel-card .property-tag {
+    left: 27px;
+}
+
 .property-info {
     padding: 24px;
 }
