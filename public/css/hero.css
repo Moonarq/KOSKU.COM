@@ -9,8 +9,8 @@ body {
     min-height: calc(115vh - 80px);
     display: flex;
     align-items: center;
-    margin-top: 72px;
-    padding: 80px 0;
+    margin-top: 45px;
+    padding: 30px 0;
     overflow: hidden;
     background-color: #1a1a1a;
 }
